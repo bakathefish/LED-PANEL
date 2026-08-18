@@ -1,0 +1,4 @@
+Qty,Description,Manufacturer,MPN,Supplier,Part No.,Unit (USD),Total (USD)
+234,Addressable RGB LED (WS2812B-compatible),XINGLIGHT,XL-5050RGBC-2812B,LCSC,C2843785,$0.0486,$11.37
+234,Decoupling capacitor 100nF 0603,Samsung Electro-Mechanics,CL10B104KB8NNNC,LCSC,C1591,$0.015,$3.51
+Total,,,,,,,$14.88
