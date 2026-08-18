@@ -5,17 +5,19 @@
   an external ESP32 driving it over FastLED. untested on real hardware
   since the board isn't built yet.
 
-  confirmed from the schematic/gerbers: 234 leds, 18x13, single-wire
-  serial chain (LED1 DOUT -> LED2 DIN -> ...), serpentine row routing,
-  470 ohm resistor (R1) between pad H1 (data in) and LED1's DIN, no
-  connector on the board so power/data get soldered on directly.
+  confirmed from the schematic/gerbers: 234 leds in a 13 wide x 18 tall
+  grid at 20mm pitch, single-wire serial chain (LED1 DOUT -> LED2 DIN
+  -> ...), serpentine row routing with LED1 in the top left corner and
+  LED234 in the bottom left, 470 ohm resistor (R1) between pad H1 (data
+  in) and LED1's DIN. no connector on the board, so data solders to H1
+  and +5V solders to any of the 248 through-hole +5V pads.
 
-  still worth checking once you actually have the board: exact led
-  part/protocol (assuming WS2812B timing below), whether a 3.3V esp32
-  gpio needs a level shifter to drive the line reliably, real current
-  draw (234 leds at full white pulls a lot, don't power this off usb),
-  and whether the serpentine direction assumed below actually matches
-  the silkscreen once you can see it in person.
+  still worth checking once you actually have the board: whether the
+  led really wants WS2812B timing and GRB order (the BOM part is a
+  XINGLIGHT XL-5050RGBC-2812B, which should be WS2812B-compatible, but
+  confirm it), whether a 3.3V esp32 gpio needs a level shifter to drive
+  the line reliably, and real current draw (234 leds at full white is
+  roughly 14A at the usual 60mA per led, don't power this off usb).
 
   library: FastLED (https://github.com/FastLED/FastLED)
 */
@@ -23,34 +25,32 @@
 #include <FastLED.h>
 
 // ---- Panel geometry (confirmed from schematic/gerbers) ----
-#define MATRIX_WIDTH   18
-#define MATRIX_HEIGHT  13
+#define MATRIX_WIDTH   13    // columns, X spans 10mm..250mm at 20mm pitch
+#define MATRIX_HEIGHT  18    // rows,    Y spans 10mm..-330mm at 20mm pitch
 #define NUM_LEDS       (MATRIX_WIDTH * MATRIX_HEIGHT)  // 234
 
 // ---- Wiring (VERIFY before flashing) ----
 #define DATA_PIN       5     // ESP32 GPIO feeding R1 -> LED1 DIN. Change to match your wiring.
-#define LED_TYPE       WS2812B   // UNVERIFIED — confirm actual LED part/protocol
-#define COLOR_ORDER    GRB       // Common default for WS2812B-class parts — verify, don't assume
+#define LED_TYPE       WS2812B   // Per the BOM part number — confirm on real hardware
+#define COLOR_ORDER    GRB       // Standard for WS2812B-class parts — verify, don't assume
 
-// Matches the serpentine row routing seen in the gerber data.
-// If your first LED (LED1) is bottom-left instead of top-left, or the
-// panel is mirrored, switch these constants accordingly.
+// Matches the serpentine row routing confirmed in the gerber data:
+// row 0 is LED1..LED13 left to right, row 1 is LED14..LED26 right to
+// left, alternating down to LED234 in the bottom left.
 const bool kMatrixSerpentine = true;
-const bool kStartsAtBottom = false;   // LED1 was in the top row in the gerber data
-const bool kStartsOnLeft   = true;    // LED1 was the leftmost LED in its row
+const bool kStartsAtBottom = false;   // LED1 is in the top row
+const bool kStartsOnLeft   = true;    // LED1 is the leftmost LED in its row
 
 CRGB leds[NUM_LEDS];
 
 // Maps (x, y) matrix coordinates to the physical index in the LED chain.
 uint16_t XY(uint8_t x, uint8_t y) {
-  uint16_t i;
   uint8_t row = kStartsAtBottom ? (MATRIX_HEIGHT - 1 - y) : y;
 
   bool rowReversed = kMatrixSerpentine && (row % 2 == 1);
   uint8_t col = (rowReversed == kStartsOnLeft) ? (MATRIX_WIDTH - 1 - x) : x;
 
-  i = (row * MATRIX_WIDTH) + col;
-  return i;
+  return (uint16_t)(row * MATRIX_WIDTH) + col;
 }
 
 void setup() {

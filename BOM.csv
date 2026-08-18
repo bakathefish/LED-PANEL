@@ -1,4 +1,6 @@
 Qty,Description,Manufacturer,MPN,Supplier,Part No.,Unit (USD),Total (USD)
-234,Addressable RGB LED (WS2812B-compatible),XINGLIGHT,XL-5050RGBC-2812B,LCSC,C2843785,$0.0486,$11.37
-234,Decoupling capacitor 100nF 0603,Samsung Electro-Mechanics,CL10B104KB8NNNC,LCSC,C1591,$0.015,$3.51
-Total,,,,,,,$14.88
+234,Addressable RGB LED (WS2812B-compatible) - top side,XINGLIGHT,XL-5050RGBC-2812B,LCSC,C2843785,$0.0486,$11.37
+234,Decoupling capacitor 100nF 0603 - bottom side,Samsung Electro-Mechanics,CL10B104KB8NNNC,LCSC,C1591,$0.015,$3.51
+1,Resistor 470 ohm 0603 (R1 data line series resistor) - bottom side,generic,-,-,-,-,-
+Subtotal (priced parts),,,,,,,$14.88
+Note,R1 is a generic 0603 resistor and is not in the subtotal. PCB is not included - 260 x 360mm 2-layer needs its own quote.,,,,,,
