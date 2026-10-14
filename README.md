@@ -6,14 +6,6 @@ a 13x18 addressable RGB LED panel, built to be driven pixel by pixel from an ext
 
 <img width="1999" height="2836" alt="image" src="https://github.com/user-attachments/assets/2de484f1-6962-4a05-8dfc-dc2dae5b0396" />
 
-
-
-
-a 13x18 addressable RGB LED panel, built to be driven pixel by pixel from an external controller
-
-
-
-
 ![PCB top view](images/pcb-top.png)
 
 *the top side of the board, all 234 leds, rendered from the gerbers in `PCB_FILES/`.*
