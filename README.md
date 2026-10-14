@@ -1,4 +1,4 @@
-# LED-PANNEL
+# LED-PANEL
 
 a 13x18 addressable RGB LED panel, built to be driven pixel by pixel from an external controller
 
@@ -20,7 +20,7 @@ a 13x18 addressable RGB LED panel, built to be driven pixel by pixel from an ext
 
 ## What it does
 
-LED-PANNEL is a big PCB carrying 234 individually addressable RGB LEDs wired up in a 13 column by 18 row grid. every LED sits on one continuous single-wire data chain, so one controller pin can drive all 234 pixels independently, full RGB, each one on its own. the board itself is just the panel, it has no brain on it, you bring the controller.
+LED-PANEL is a big PCB carrying 234 individually addressable RGB LEDs wired up in a 13 column by 18 row grid. every LED sits on one continuous single-wire data chain, so one controller pin can drive all 234 pixels independently, full RGB, each one on its own. the board itself is just the panel, it has no brain on it, you bring the controller.
 
 the name comes from the actual goal here: watching a movie the way it's meant to be seen, at real framerate, on a panel dense enough to actually output video and not just slow ambient patterns. 100+fps is the target for the finished system, not a measured result yet, since the board hasn't been built.
 
